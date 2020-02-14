@@ -45,7 +45,7 @@ maxclients 10000
 appendonly no
 EOF
         echo ">>> Prepare redis service"
-cat <<EOF | sshpass -p pass.123 ssh root@${MASTER_IPs[$index]} "cat > /usr/lib/systemd/system/redis_${MASTER_PORTs[$index]}.service"
+cat <<EOF | sshpass -p pass.123 ssh root@${MASTER_IPs[$index]} "cat > /etc/systemd/system/redis_${MASTER_PORTs[$index]}.service"
 [Unit]
 Description=Redis persistent key-value database
 After=network.target
@@ -88,7 +88,7 @@ maxclients 10000
 appendonly no
 EOF
         echo ">>> Prepare redis service"
-cat <<EOF | sshpass -p pass.123 ssh root@${SLAVE_IPs[$index]} "cat > /usr/lib/systemd/system/redis_${SLAVE_PORTs[$index]}.service"
+cat <<EOF | sshpass -p pass.123 ssh root@${SLAVE_IPs[$index]} "cat > /etc/systemd/system/redis_${SLAVE_PORTs[$index]}.service"
 [Unit]
 Description=Redis persistent key-value database
 After=network.target
@@ -135,7 +135,7 @@ EOF
         # 給 redis user 讀寫 sentinel config 權限
         sshpass -p pass.123 ssh root@${SENTINEL_IPs[$index]} "setfacl -m u:redis:rw /etc/redis/redis_${SENTINEL_PORTs[$index]}.conf"
         echo ">>> Prepare redis sentinel service"
-cat <<EOF | sshpass -p pass.123 ssh root@${SENTINEL_IPs[$index]} "cat > /usr/lib/systemd/system/redis_${SENTINEL_PORTs[$index]}.service"
+cat <<EOF | sshpass -p pass.123 ssh root@${SENTINEL_IPs[$index]} "cat > /etc/systemd/system/redis_${SENTINEL_PORTs[$index]}.service"
 [Unit]
 Description=Redis persistent key-value database
 After=network.target
